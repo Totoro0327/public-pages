@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>My Color Walk</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#090611;
+  --primary:#8b5cf6;
+  --text:#f7f2ff;
+  --glass-panel:rgba(255,255,255,.08);
+  --glass-card:rgba(255,255,255,.05);
+  --glass-input:rgba(0,0,0,.15);
+  --glass-border:rgba(255,255,255,.15);
+  --glass-border-light:rgba(255,255,255,.3);
+  --text-main:#fff;
+  --text-muted:rgba(255,255,255,.66);
+  --trans:all .35s cubic-bezier(.2,.8,.2,1);
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+/* ================= 第一页：完整保留源代码1入口 ================= */
+
+.page-bg{
+  position:fixed;
+  inset:0;
+  z-index:-5;
+  background:#0b0714;
+  overflow:hidden;
+}
+
+.bg-blob{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(100px);
+  opacity:.35;
+  animation:floatIntro 12s ease-in-out infinite alternate;
+}
+
+.bg-b1{
+  width:40vw;
+  height:40vw;
+  background:#4c1d95;
+  top:-10%;
+  left:-10%;
+}
+
+.bg-b2{
+  width:35vw;
+  height:35vw;
+  background:#1e1b4b;
+  right:-10%;
+  top:30%;
+  animation-delay:-3s;
+}
+
+@keyframes floatIntro{
+  100%{
+    transform:translate(5%,5%) scale(1.1);
+  }
+}
+
+.intro{
+  position:relative;
+  width:100vw;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  cursor:pointer;
+  z-index:10;
+  transition:opacity .8s ease;
+}
+
+.intro.fade-out{
+  opacity:0;
+  pointer-events:none;
+}
+
+.intro-bg{
+  position:absolute;
+  inset:0;
+  z-index:0;
+}
+
+.intro-bg img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:blur(3px);
+  transform:scale(1.05);
+}
+
+.intro-mask{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  background:radial-gradient(circle,transparent 30%,rgba(0,0,0,.5) 100%);
+}
+
+.hero-stage{
+  position:relative;
+  z-index:10;
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.hero-media-wrap{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:min(32vw,380px);
+  height:min(48vw,520px);
+  min-width:260px;
+  min-height:360px;
+  border-radius:30px;
+  padding:10px;
+  z-index:5;
+  background:linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.05));
+  box-shadow:0 0 0 1px rgba(255,255,255,.1),0 20px 60px rgba(0,0,0,.3);
+  backdrop-filter:blur(15px);
+  -webkit-backdrop-filter:blur(15px);
+}
+
+.hero-media{
+  width:100%;
+  height:100%;
+  border-radius:22px;
+  overflow:hidden;
+  position:relative;
+}
+
+.hero-media img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.hero-media::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(0deg,rgba(0,0,0,.4) 0%,transparent 40%);
+}
+
+.glass-title{
+  position:absolute;
+  z-index:20;
+  font-weight:900;
+  white-space:nowrap;
+  line-height:1;
+  background:linear-gradient(120deg,rgba(255,255,255,1) 0%,rgba(255,255,255,.5) 40%,rgba(255,255,255,1) 60%,rgba(255,255,255,.3) 100%);
+  background-size:200% auto;
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 12px 24px rgba(0,0,0,.4));
+  animation:textShine 3s linear infinite;
+}
+
+@keyframes textShine{
+  to{
+    background-position:200% center;
+  }
+}
+
+.title-my{
+  top:40%;
+  left:50%;
+  font-size:clamp(48px,6vw,85px);
+  /* 初始位置恢复为源代码1：My 位于 Color Walk 左上方；随后跟随下方天鹅节奏向左游出玻璃框 */
+  animation:slideMySwan 5.8s cubic-bezier(.22,.72,.18,1) forwards,textShine 3s linear infinite;
+}
+
+@keyframes slideMySwan{
+  0%,18%{
+    opacity:1;
+    transform:translate(calc(-100% - 6vw),-50%) scale(1);
+    filter:blur(0);
+  }
+  54%{
+    opacity:1;
+    transform:translate(calc(-100% - min(12vw,160px)),-51%) scale(1);
+    filter:blur(0);
+  }
+  100%{
+    opacity:1;
+    transform:translate(calc(-100% - min(19vw,260px)),-52%) scale(1);
+    filter:blur(0);
+  }
+}
+
+.title-walk{
+  top:56%;
+  left:50%;
+  font-size:clamp(54px,7.5vw,105px);
+  /* 初始位置恢复为源代码1：Color Walk 在 My 右下方；随后跟随上方天鹅节奏向右移动且不出屏 */
+  animation:slideWalkSwan 5.8s cubic-bezier(.22,.72,.18,1) forwards,textShine 3s linear infinite;
+}
+
+@keyframes slideWalkSwan{
+  0%,18%{
+    opacity:1;
+    transform:translate(12%,-50%) scale(1);
+    filter:blur(0);
+  }
+  54%{
+    opacity:1;
+    transform:translate(clamp(40px,11vw,150px),-51%) scale(1);
+    filter:blur(0);
+  }
+  100%{
+    opacity:1;
+    transform:translate(clamp(70px,17vw,230px),-52%) scale(1);
+    filter:blur(0);
+  }
+}
+
+@media(max-width:760px){
+  .title-my{top:40%;}
+  .title-walk{top:56%;}
+  @keyframes slideMySwan{
+    0%,18%{opacity:1;transform:translate(calc(-100% - 6vw),-50%) scale(1);filter:blur(0);}
+    100%{opacity:1;transform:translate(calc(-100% - 18vw),-52%) scale(1);filter:blur(0);}
+  }
+  @keyframes slideWalkSwan{
+    0%,18%{opacity:1;transform:translate(12%,-50%) scale(1);filter:blur(0);}
+    100%{opacity:1;transform:translate(12vw,-52%) scale(1);filter:blur(0);}
+  }
+}
+
+.hero-enter{
+  position:absolute;
+  left:50%;
+  bottom:35px;
+  transform:translateX(-50%);
+  z-index:15;
+  font-size:24px;
+  font-weight:500;
+  letter-spacing:.35em;
+  color:rgba(255,255,255,.85);
+  text-shadow:0 4px 15px rgba(0,0,0,.6);
+  animation:enterPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes enterPulse{
+  0%,100%{
+    opacity:.65;
+    transform:translateX(-50%) translateY(0);
+  }
+  50%{
+    opacity:1;
+    transform:translateX(-50%) translateY(-4px);
+  }
+}
+
+.hero-subtag{
+  position:absolute;
+  left:50%;
+  top:calc(50% + min(24vw,260px) + 12px);
+  transform:translateX(-50%);
+  z-index:15;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.2em;
+  color:rgba(255,255,255,.7);
+  white-space:nowrap;
+}
+
+.intro-footer{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:20;
+  font-size:11px;
+  color:rgba(255,255,255,.4);
+  background:rgba(0,0,0,.3);
+}
+
+/* ================= 第二页：源代码2照片剪辑功能页 ================= */
+
+.app-page{
+  display:none;
+  min-height:100vh;
+  opacity:0;
+  transform:translateY(30px);
+  transition:all .8s ease;
+  background:#0b1020;
+  color:var(--text-main);
+  padding:80px 0 46px;
+  position:relative;
+  z-index:20;
+}
+
+.app-page.show{
+  display:block;
+  opacity:1;
+  transform:translateY(0);
+}
+
+.aurora{
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  overflow:hidden;
+  background:#050510;
+  display:none;
+}
+
+.app-page.show .aurora{
+  display:block;
+}
+
+.blob{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(110px);
+  opacity:.72;
+  animation:floatApp 18s infinite alternate ease-in-out;
+}
+
+.b1{
+  width:56vw;
+  height:56vw;
+  background:#4f46e5;
+  top:-12%;
+  left:-10%;
+}
+
+.b2{
+  width:52vw;
+  height:52vw;
+  background:#db2777;
+  right:-10%;
+  bottom:-16%;
+  animation-delay:-6s;
+}
+
+.b3{
+  width:42vw;
+  height:42vw;
+  background:#06b6d4;
+  left:28%;
+  top:38%;
+  animation-delay:-11s;
+}
+
+@keyframes floatApp{
+  0%{
+    transform:translate(0,0) scale(1);
+  }
+  100%{
+    transform:translate(14%,10%) scale(1.16);
+  }
+}
+
+.glass-header,
+.glass-footer{
+  position:fixed;
+  left:0;
+  right:0;
+  z-index:100;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  background:rgba(255,255,255,.03);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+}
+
+.glass-header.show,
+.glass-footer.show{
+  display:flex;
+}
+
+.glass-header{
+  top:0;
+  height:60px;
+  border-bottom:1px solid var(--glass-border);
+  box-shadow:0 4px 30px rgba(0,0,0,.12);
+}
+
+.glass-header h1{
+  font-size:20px;
+  font-weight:800;
+  letter-spacing:1.8px;
+  background:linear-gradient(135deg,#fff 0%,#a5b4fc 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  cursor:pointer;
+}
+
+.glass-footer{
+  bottom:0;
+  height:40px;
+  border-top:1px solid var(--glass-border);
+  background:linear-gradient(90deg,rgba(255,255,255,.02) 0%,rgba(139,92,246,.12) 50%,rgba(255,255,255,.02) 100%);
+  font-size:12px;
+}
+
+.glass-footer p{
+  background:linear-gradient(135deg,#fff 0%,#a5b4fc 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  font-weight:600;
+  letter-spacing:1px;
+}
+
+.wrap{
+  max-width:1720px;
+  margin:0 auto;
+  padding:0 24px;
+  position:relative;
+  z-index:1;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:400px minmax(0,1fr);
+  gap:28px;
+  align-items:start;
+}
+
+.panel{
+  background:var(--glass-panel);
+  backdrop-filter:blur(32px);
+  -webkit-backdrop-filter:blur(32px);
+  border:1px solid var(--glass-border-light);
+  border-radius:24px;
+  padding:24px;
+  box-shadow:0 18px 40px rgba(0,0,0,.22),inset 0 0 0 1px rgba(255,255,255,.04);
+  max-height:calc(100vh - 140px);
+  overflow-y:auto;
+}
+
+.panel::-webkit-scrollbar{
+  width:6px;
+}
+
+.panel::-webkit-scrollbar-thumb{
+  background:rgba(255,255,255,.22);
+  border-radius:6px;
+}
+
+.prev{
+  position:sticky;
+  top:90px;
+  height:calc(100vh - 140px);
+  display:flex;
+}
+
+.cvs-w{
+  width:100%;
+  height:100%;
+  background:var(--glass-panel);
+  backdrop-filter:blur(32px);
+  -webkit-backdrop-filter:blur(32px);
+  border:1px solid var(--glass-border-light);
+  border-radius:24px;
+  padding:14px;
+  box-shadow:0 20px 50px rgba(0,0,0,.3),inset 0 0 0 1px rgba(255,255,255,.04);
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+canvas{
+  display:block;
+  width:100%;
+  height:100%;
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  border-radius:14px;
+  opacity:0;
+  transition:opacity .35s;
+  box-shadow:0 10px 30px rgba(0,0,0,.2);
+  background:transparent;
+}
+
+.emp{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  color:var(--text-muted);
+  z-index:10;
+  text-align:center;
+}
+
+.step{
+  position:relative;
+  padding-left:24px;
+  margin-bottom:24px;
+}
+
+.step::before{
+  content:"";
+  position:absolute;
+  left:3px;
+  top:10px;
+  bottom:-28px;
+  width:1px;
+  background:var(--glass-border);
+}
+
+.step:last-child::before{
+  display:none;
+}
+
+.dot{
+  position:absolute;
+  left:-1px;
+  top:9px;
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 10px rgba(255,255,255,.9),0 0 0 4px rgba(255,255,255,.08);
+}
+
+.st-tit{
+  font-size:16px;
+  font-weight:700;
+  margin-bottom:14px;
+}
+
+.lock{
+  opacity:.35;
+  pointer-events:none;
+  filter:grayscale(1);
+}
+
+.cg{
+  background:var(--glass-card);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border:1px solid var(--glass-border);
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:14px;
+  box-shadow:0 4px 15px rgba(0,0,0,.06);
+}
+
+label{
+  display:block;
+  font-size:12px;
+  font-weight:600;
+  color:var(--text-muted);
+  margin-bottom:8px;
+}
+
+.up-box{
+  border:1px dashed var(--glass-border-light);
+  border-radius:16px;
+  padding:26px;
+  text-align:center;
+  cursor:pointer;
+  background:var(--glass-card);
+  transition:var(--trans);
+}
+
+.up-box:hover{
+  transform:translateY(-1px);
+  border-color:#fff;
+  background:rgba(255,255,255,.08);
+}
+
+#fIn{
+  display:none;
+}
+
+input[type="text"].rt,
+select,
+textarea{
+  width:100%;
+  padding:10px 12px;
+  background:var(--glass-input);
+  border:1px solid var(--glass-border);
+  border-radius:10px;
+  font-size:13px;
+  color:#fff;
+  outline:none;
+  transition:var(--trans);
+}
+
+select option{
+  background:#1e293b;
+  color:#fff;
+}
+
+textarea{
+  resize:vertical;
+  min-height:60px;
+}
+
+.sg{
+  margin-bottom:14px;
+}
+
+.sh{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:6px;
+  gap:10px;
+}
+
+.sy-in{
+  background:transparent;
+  border:none;
+  color:#fff;
+  font-size:14px;
+  font-weight:700;
+  text-align:right;
+  min-width:58px;
+  outline:none;
+}
+
+input[type="range"]{
+  width:100%;
+  height:5px;
+  background:rgba(255,255,255,.12);
+  border-radius:999px;
+  outline:none;
+  -webkit-appearance:none;
+}
+
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:#fff;
+  border:3px solid var(--primary);
+  cursor:pointer;
+  box-shadow:0 2px 10px rgba(0,0,0,.15);
+}
+
+.switch{
+  position:relative;
+  display:inline-block;
+  width:46px;
+  height:24px;
+}
+
+.switch input{
+  opacity:0;
+  width:0;
+  height:0;
+}
+
+.slider{
+  position:absolute;
+  inset:0;
+  border-radius:24px;
+  background:var(--glass-input);
+  border:1px solid var(--glass-border);
+  transition:.3s;
+  cursor:pointer;
+}
+
+.slider:before{
+  content:"";
+  position:absolute;
+  left:3px;
+  bottom:3px;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:#fff;
+  transition:.3s;
+}
+
+.switch input:checked+.slider{
+  background:var(--primary);
+  border-color:var(--primary);
+}
+
+.switch input:checked+.slider:before{
+  transform:translateX(22px);
+}
+
+.pal{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.sw{
+  width:30px;
+  height:30px;
+  border-radius:10px;
+  cursor:pointer;
+  border:2px solid rgba(255,255,255,.12);
+  box-shadow:0 6px 14px rgba(0,0,0,.12);
+  transition:var(--trans);
+}
+
+.sw:hover{
+  transform:translateY(-1px);
+}
+
+.sw.act{
+  transform:scale(1.12);
+  border-color:#0f172a;
+  box-shadow:0 0 0 2px rgba(255,255,255,.75),0 10px 16px rgba(0,0,0,.18);
+}
+
+.seg{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+  margin-bottom:12px;
+}
+
+.radio{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+  font-weight:600;
+  color:#fff;
+  cursor:pointer;
+}
+
+.radio input{
+  accent-color:#3b82f6;
+}
+
+.btn{
+  width:100%;
+  padding:13px 14px;
+  border-radius:12px;
+  border:1px solid var(--glass-border-light);
+  background:rgba(255,255,255,.1);
+  color:#fff;
+  font-weight:700;
+  font-size:14px;
+  cursor:pointer;
+  backdrop-filter:blur(10px);
+  transition:var(--trans);
+  margin-top:14px;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+  background:rgba(255,255,255,.14);
+}
+
+.btn.sm{
+  margin-top:0;
+  padding:10px 12px;
+  width:auto;
+  flex:1;
+}
+
+.line2{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.muted{
+  font-size:12px;
+  color:var(--text-muted);
+}
+
+@media(max-width:1024px){
+  .app-page{
+    padding:70px 0 44px;
+  }
+
+  .grid{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+  }
+
+  .prev{
+    order:-1;
+    position:sticky;
+    top:70px;
+    z-index:20;
+    height:54vh;
+  }
+
+  .panel{
+    order:1;
+    max-height:none;
+    overflow:visible;
+    padding:18px;
+    border-radius:20px;
+  }
+
+  .cvs-w{
+    padding:8px;
+    border-radius:18px;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="page-bg">
+  <div class="bg-blob bg-b1"></div>
+  <div class="bg-blob bg-b2"></div>
+</div>
+
+<section class="intro" id="intro">
+  <div class="intro-bg">
+    <img src="./cover.png" alt="cover" onerror="this.style.display='none'">
+  </div>
+  <div class="intro-mask"></div>
+  <div class="hero-stage">
+    <div class="glass-title title-my">My</div>
+    <div class="glass-title title-walk">Color Walk</div>
+    <div class="hero-media-wrap">
+      <div class="hero-media">
+        <img src="./butterfly.gif" alt="butterfly" onerror="this.style.display='none'">
+      </div>
+      <div class="hero-enter">ENTER</div>
+    </div>
+  </div>
+  <div class="hero-subtag">YOUR MOMENTS, YOUR COLORS</div>
+  <div class="intro-footer">Designed by Totoro</div>
+</section>
+
+<header class="glass-header" id="mainHeader">
+  <h1 id="backHome">ColorWalk Pro</h1>
+</header>
+
+<section class="app-page" id="appPage">
+  <div class="aurora">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+
+  <div class="wrap">
+    <div class="grid">
+      <div class="panel">
+        <div class="step">
+          <div class="dot"></div>
+          <div class="st-tit">1. 唤醒照片</div>
+          <div class="up-box" id="upA">
+            <div style="font-size:32px;margin-bottom:8px;">📸</div>
+            <p style="font-weight:600;font-size:14px;color:var(--text-muted);">点击上传照片 / 拖拽图片到这里</p>
+          </div>
+          <input type="file" id="fIn" accept="image/*">
+        </div>
+
+        <div class="step lock st-n">
+          <div class="dot"></div>
+          <div class="st-tit">2. 构图与波点拼贴</div>
+
+          <div class="cg">
+            <label>排版模式</label>
+            <select id="lMod" class="rt" style="margin-bottom:14px;">
+              <option value="3:4">竖屏 3:4（上色下图）</option>
+              <option value="4:3">横屏 4:3（左色右图）</option>
+            </select>
+
+            <div class="sg">
+              <div class="sh">
+                <label>版面分割比例</label>
+                <input type="text" id="vSpI" class="sy-in">
+              </div>
+              <input type="range" id="vSp" min="10" max="90" value="50">
+            </div>
+
+            <div class="sg">
+              <div class="sh">
+                <label>图片缩放（Zoom）</label>
+                <input type="text" id="vZmI" class="sy-in">
+              </div>
+              <input type="range" id="vZm" min="0.6" max="3" step="0.01" value="1">
+            </div>
+
+            <div class="sg">
+              <div class="sh">
+                <label>平移 X</label>
+                <input type="text" id="vPxI" class="sy-in">
+              </div>
+              <input type="range" id="vPx" min="-100" max="100" step="1" value="0">
+            </div>
+
+            <div class="sg">
+              <div class="sh">
+                <label>平移 Y</label>
+                <input type="text" id="vPyI" class="sy-in">
+              </div>
+              <input type="range" id="vPy" min="-100" max="100" step="1" value="0">
+            </div>
+          </div>
+
+          <div class="cg">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+              <label style="margin:0;color:#fff;font-weight:700;">开启艺术波点（Halftone）</label>
+              <label class="switch">
+                <input type="checkbox" id="htOn" class="rt">
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div id="htPanel" style="display:none;border-top:1px dashed var(--glass-border);padding-top:14px;">
+              <div class="line2" style="margin-bottom:14px;">
+                <div style="flex:1;min-width:140px;">
+                  <label>显示区域</label>
+                  <select id="htArea" class="rt">
+                    <option value="all">全图显示</option>
+                    <option value="colorOnly">仅在色块区</option>
+                    <option value="imgOnly">仅在图片区</option>
+                    <option value="dual" selected>双区智能分离</option>
+                  </select>
+                </div>
+
+                <div style="flex:1;min-width:140px;">
+                  <label>波点颜色</label>
+                  <select id="htColor" class="rt">
+                    <option value="main" selected>主色</option>
+                    <option value="white">纯白</option>
+                    <option value="black">纯黑</option>
+                    <option value="sample">采样原图</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="line2" style="margin-bottom:14px;">
+                <div style="flex:1;min-width:140px;">
+                  <label>波点形状</label>
+                  <select id="htShape" class="rt">
+                    <option value="circle" selected>● 波点</option>
+                    <option value="heart">♥ 爱心</option>
+                    <option value="star">★ 五角星</option>
+                    <option value="butterfly">🦋 蝴蝶</option>
+                    <option value="drop">💧 雨滴</option>
+                  </select>
+                </div>
+
+                <div style="flex:1;min-width:140px;">
+                  <label>排布方式</label>
+                  <select id="htLayout" class="rt">
+                    <option value="random" selected>随机散布</option>
+                    <option value="hex">蜂窝交错</option>
+                    <option value="grid">规则网格</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="sg">
+                <div class="sh">
+                  <label>基础大小</label>
+                  <input type="text" id="htSzI" class="sy-in">
+                </div>
+                <input type="range" id="htSz" min="0" max="100" value="30">
+              </div>
+
+              <div class="sg">
+                <div class="sh">
+                  <label>波点间距</label>
+                  <input type="text" id="htGapI" class="sy-in">
+                </div>
+                <input type="range" id="htGap" min="0" max="100" value="45">
+              </div>
+
+              <div class="sg">
+                <div class="sh">
+                  <label>数量 / 密度</label>
+                  <input type="text" id="htDenI" class="sy-in">
+                </div>
+                <input type="range" id="htDen" min="0" max="100" value="45">
+              </div>
+
+              <div class="sg">
+                <div class="sh">
+                  <label>大小差异（基于亮度）</label>
+                  <input type="text" id="htVarI" class="sy-in">
+                </div>
+                <input type="range" id="htVar" min="0" max="100" value="68">
+              </div>
+
+              <div class="sg">
+                <div class="sh">
+                  <label>随机偏移</label>
+                  <input type="text" id="htJitI" class="sy-in">
+                </div>
+                <input type="range" id="htJit" min="0" max="80" value="28">
+              </div>
+
+              <div class="sg">
+                <div class="sh">
+                  <label>波点透明度</label>
+                  <input type="text" id="htAlpI" class="sy-in">
+                </div>
+                <input type="range" id="htAlp" min="10" max="100" value="72">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step lock st-n">
+          <div class="dot"></div>
+          <div class="st-tit">3. 灵魂色彩与渐变</div>
+
+          <div class="cg">
+            <label>智能提取 5 大主色</label>
+            <div class="pal" id="mPal">
+              <span class="muted">等待分析...</span>
+            </div>
+          </div>
+
+          <div class="cg">
+            <label>色彩渲染模式</label>
+            <div class="seg">
+              <label class="radio"><input type="radio" name="gradMode" value="solid" checked> 纯色</label>
+              <label class="radio"><input type="radio" name="gradMode" value="coolwarm"> 冷暖</label>
+              <label class="radio"><input type="radio" name="gradMode" value="depth"> 深浅</label>
+              <label class="radio"><input type="radio" name="gradMode" value="custom"> 自定义双拼</label>
+            </div>
+
+            <div id="gradPanel" style="margin-top:10px;">
+              <label>自选拼色 1</label>
+              <div class="pal" id="gPal1" style="margin-bottom:14px;">
+                <span class="muted">等待分析...</span>
+              </div>
+
+              <label>自选拼色 2</label>
+              <div class="pal" id="gPal2" style="margin-bottom:14px;">
+                <span class="muted">等待分析...</span>
+              </div>
+
+              <div class="sg">
+                <div class="sh">
+                  <label>渐变角度</label>
+                  <input type="text" id="gAngI" class="sy-in">
+                </div>
+                <input type="range" id="gAng" min="0" max="360" value="90">
+              </div>
+
+              <div class="sg">
+                <div class="sh">
+                  <label>融合比例</label>
+                  <input type="text" id="gMixI" class="sy-in">
+                </div>
+                <input type="range" id="gMix" min="0" max="100" value="67">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step lock st-n">
+          <div class="dot"></div>
+          <div class="st-tit">4. 赋予文字</div>
+
+          <div class="cg">
+            <label>一键文案模板</label>
+            <div class="line2" style="margin-bottom:12px;">
+              <button class="btn sm" type="button" id="tp1">📍 时间地点</button>
+              <button class="btn sm" type="button" id="tp2">🎨 主色色号</button>
+              <button class="btn sm" type="button" id="tp3">📜 文艺诗句</button>
+            </div>
+
+            <label>上行文字</label>
+            <input id="t1" class="rt" type="text" value="2026.05.11" style="margin-bottom:12px;">
+
+            <label>下行文字</label>
+            <textarea id="t2" class="rt" rows="2">Halftone Art</textarea>
+          </div>
+
+          <div class="cg">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+              <div id="aiTip" style="font-size:12px;color:#34d399;font-weight:700;">✨ AI 智能文字色：等待分析</div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <label style="margin:0;">自定义颜色</label>
+                <input type="color" id="tColInp" value="#ffffff" style="width:34px;height:34px;border:none;background:none;">
+              </div>
+            </div>
+
+            <div class="line2" style="margin-bottom:14px;">
+              <div style="flex:1;min-width:140px;">
+                <label>文字颜色模式</label>
+                <select id="tColorMode" class="rt">
+                  <option value="solid" selected>单色</option>
+                  <option value="gradient-main">主色渐变</option>
+                  <option value="gradient-custom">自定义渐变</option>
+                </select>
+              </div>
+              <div style="flex:1;min-width:140px;">
+                <label>文字渐变角度</label>
+                <input type="range" id="tGradAng" class="rt" min="0" max="360" value="90">
+              </div>
+            </div>
+
+            <div class="line2" style="margin-bottom:14px;">
+              <div style="flex:1;min-width:140px;display:flex;align-items:center;justify-content:space-between;gap:10px;">
+                <label style="margin:0;">渐变颜色 1</label>
+                <input type="color" id="tGrad1" class="rt" value="#ffffff" style="width:42px;height:34px;border:none;background:none;">
+              </div>
+              <div style="flex:1;min-width:140px;display:flex;align-items:center;justify-content:space-between;gap:10px;">
+                <label style="margin:0;">渐变颜色 2</label>
+                <input type="color" id="tGrad2" class="rt" value="#a5b4fc" style="width:42px;height:34px;border:none;background:none;">
+              </div>
+            </div>
+
+            <div class="line2" style="margin-bottom:14px;">
+              <div style="flex:1;min-width:140px;">
+                <label>字体风格</label>
+                <select id="fF" class="rt">
+                  <option value="'Inter', sans-serif" selected>Inter（现代）</option>
+                  <option value="'Arial', sans-serif">Arial</option>
+                  <option value="'Helvetica', sans-serif">Helvetica</option>
+                  <option value="'宋体', serif">宋体</option>
+                  <option value="'黑体', sans-serif">黑体</option>
+                </select>
+              </div>
+
+              <div style="flex:1;min-width:140px;">
+                <label>字体粗细</label>
+                <select id="fW" class="rt">
+                  <option value="100">极细</option>
+                  <option value="300">细</option>
+                  <option value="500" selected>中等</option>
+                  <option value="700">粗</option>
+                  <option value="900">极粗</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="sg">
+              <div class="sh">
+                <label>上行字体大小</label>
+                <input type="text" id="vSz1I" class="sy-in">
+              </div>
+              <input type="range" id="vSz1" min="16" max="100" value="34">
+            </div>
+
+            <div class="sg">
+              <div class="sh">
+                <label>下行字体大小</label>
+                <input type="text" id="vSz2I" class="sy-in">
+              </div>
+              <input type="range" id="vSz2" min="16" max="120" value="46">
+            </div>
+
+            <div class="sg">
+              <div class="sh">
+                <label>上下行间距</label>
+                <input type="text" id="vGapI" class="sy-in">
+              </div>
+              <input type="range" id="vGap" min="0" max="120" value="18">
+            </div>
+          </div>
+
+          <button class="btn" id="dl">⬇️ 保存高清作品</button>
+        </div>
+      </div>
+
+      <div class="prev">
+        <div class="cvs-w">
+          <div class="emp" id="emp">
+            <div style="font-size:48px;opacity:.85;margin-bottom:14px;">🖼️</div>
+            <p style="font-weight:600;">等待上传照片</p>
+          </div>
+          <canvas id="cvs" width="900" height="1200"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="glass-footer" id="mainFooter">
+  <p>Designed by Totoro</p>
+</footer>
+
+<script>
+/* ================= 页面衔接交互 ================= */
+
+const intro = document.getElementById('intro');
+const appPage = document.getElementById('appPage');
+const mainHeader = document.getElementById('mainHeader');
+const mainFooter = document.getElementById('mainFooter');
+const backHome = document.getElementById('backHome');
+
+function enterApp(){
+  intro.classList.add('fade-out');
+  setTimeout(()=>{
+    intro.style.display='none';
+    document.querySelector('.page-bg').style.display='none';
+    appPage.classList.add('show');
+    mainHeader.classList.add('show');
+    mainFooter.classList.add('show');
+    window.scrollTo({top:0,behavior:'smooth'});
+  },800);
+}
+
+function backIntro(){
+  appPage.classList.remove('show');
+  mainHeader.classList.remove('show');
+  mainFooter.classList.remove('show');
+  setTimeout(()=>{
+    document.querySelector('.page-bg').style.display='block';
+    intro.style.display='flex';
+    void intro.offsetWidth;
+    intro.classList.remove('fade-out');
+    window.scrollTo({top:0,behavior:'smooth'});
+  },500);
+}
+
+intro.addEventListener('click',enterApp);
+backHome.addEventListener('click',backIntro);
+
+document.addEventListener('keydown',e=>{
+  if(e.key === 'Enter' && intro.style.display !== 'none'){
+    enterApp();
+  }
+});
+
+/* ================= 第二页核心功能 ================= */
+
+class KMeans{
+  constructor(k){
+    this.k=k;
+  }
+
+  fit(px){
+    if(!px.length)return[];
+
+    let c=Array.from({length:this.k},()=>px[Math.floor(Math.random()*px.length)]);
+    let cl=[];
+
+    for(let it=0;it<8;it++){
+      cl=Array.from({length:this.k},()=>[]);
+
+      for(const p of px){
+        let md=Infinity,id=0;
+
+        for(let i=0;i<this.k;i++){
+          const d=(p[0]-c[i][0])**2+(p[1]-c[i][1])**2+(p[2]-c[i][2])**2;
+          if(d<md){
+            md=d;
+            id=i;
+          }
+        }
+
+        cl[id].push(p);
+      }
+
+      let chg=false;
+
+      for(let i=0;i<this.k;i++){
+        if(!cl[i].length)continue;
+
+        let r=0,g=0,b=0,l=cl[i].length;
+
+        for(const p of cl[i]){
+          r+=p[0];
+          g+=p[1];
+          b+=p[2];
+        }
+
+        const nc=[Math.round(r/l),Math.round(g/l),Math.round(b/l)];
+
+        if(nc[0]!==c[i][0]||nc[1]!==c[i][1]||nc[2]!==c[i][2])chg=true;
+
+        c[i]=nc;
+      }
+
+      if(!chg)break;
+    }
+
+    return c.map((v,i)=>({
+      r:v[0],
+      g:v[1],
+      b:v[2],
+      cnt:cl[i]?.length||0,
+      hex:'#'+((1<<24)+(v[0]<<16)+(v[1]<<8)+v[2]).toString(16).slice(1).toUpperCase()
+    })).sort((a,b)=>b.cnt-a.cnt);
+  }
+}
+
+const $=id=>document.getElementById(id);
+
+const ui={
+  up:$('upA'),
+  fi:$('fIn'),
+  lm:$('lMod'),
+  cvs:$('cvs'),
+  emp:$('emp'),
+  dl:$('dl'),
+  mp:$('mPal'),
+  gPal1:$('gPal1'),
+  gPal2:$('gPal2'),
+  t1:$('t1'),
+  t2:$('t2'),
+  tp1:$('tp1'),
+  tp2:$('tp2'),
+  tp3:$('tp3'),
+  tColInp:$('tColInp'),
+  tColorMode:$('tColorMode'),
+  tGradAng:$('tGradAng'),
+  tGrad1:$('tGrad1'),
+  tGrad2:$('tGrad2'),
+  aiTip:$('aiTip'),
+  fF:$('fF'),
+  fW:$('fW'),
+  htOn:$('htOn'),
+  htPanel:$('htPanel'),
+  htArea:$('htArea'),
+  htColor:$('htColor'),
+  htShape:$('htShape'),
+  htLayout:$('htLayout')
+};
+
+const ctx=ui.cvs.getContext('2d');
+
+let upImg=null;
+let exC=[];
+let mCol='#8B5CF6';
+let tCol='#FFFFFF';
+let gCol1='#8B5CF6';
+let gCol2='#1E293B';
+let halftoneSeed=0;
+
+const binds=[];
+
+function bS(sid,iid,fmt,prs){
+  const s=$(sid),i=$(iid);
+  if(!s||!i)return;
+
+  const uI=()=>i.value=fmt(s.value);
+  const uS=()=>{
+    const v=prs(i.value);
+    if(!isNaN(v)){
+      s.value=v;
+      uI();
+      draw();
+    }
+  };
+
+  s.oninput=()=>{
+    uI();
+    draw();
+  };
+
+  i.onchange=uS;
+  i.onblur=uI;
+  uI();
+
+  binds.push({
+    id:sid,
+    g:()=>parseFloat(s.value)
+  });
+}
+
+const gV=id=>binds.find(b=>b.id===id)?.g()||0;
+
+bS('vSp','vSpI',v=>`${v} / ${100-v}`,v=>parseFloat(String(v).split('/')[0]));
+bS('vZm','vZmI',v=>`${parseFloat(v).toFixed(2)}x`,v=>parseFloat(String(v).replace('x','')));
+bS('vPx','vPxI',v=>`${v}%`,v=>parseFloat(String(v).replace('%','')));
+bS('vPy','vPyI',v=>`${v}%`,v=>parseFloat(String(v).replace('%','')));
+bS('htSz','htSzI',v=>`${v}`,v=>parseFloat(String(v).replace('%','')));
+bS('htGap','htGapI',v=>`${v}`,v=>parseFloat(String(v).replace('%','')));
+bS('htDen','htDenI',v=>`${v}`,v=>parseFloat(String(v).replace('%','')));
+bS('htVar','htVarI',v=>`${v}%`,v=>parseFloat(String(v).replace('%','')));
+bS('htJit','htJitI',v=>`${v}px`,v=>parseFloat(String(v).replace('px','')));
+bS('htAlp','htAlpI',v=>`${v}%`,v=>parseFloat(String(v).replace('%','')));
+bS('gAng','gAngI',v=>`${v}°`,v=>parseFloat(String(v).replace('°','')));
+bS('gMix','gMixI',v=>`${v}%`,v=>parseFloat(String(v).replace('%','')));
+bS('vSz1','vSz1I',v=>`${v}px`,v=>parseFloat(String(v).replace('px','')));
+bS('vSz2','vSz2I',v=>`${v}px`,v=>parseFloat(String(v).replace('px','')));
+bS('vGap','vGapI',v=>`${v}px`,v=>parseFloat(String(v).replace('px','')));
+
+const h2r=h=>{
+  const x=h.replace('#','');
+  return{
+    r:parseInt(x.substring(0,2),16),
+    g:parseInt(x.substring(2,4),16),
+    b:parseInt(x.substring(4,6),16)
+  };
+};
+
+const r2h=(r,g,b)=>'#'+[r,g,b].map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join('').toUpperCase();
+
+const mixH=(a,b,t)=>{
+  const ca=h2r(a),cb=h2r(b);
+  return r2h(
+    ca.r+(cb.r-ca.r)*t,
+    ca.g+(cb.g-ca.g)*t,
+    ca.b+(cb.b-ca.b)*t
+  );
+};
+
+const ldP=h=>({
+  light:mixH(h,'#FFFFFF',.42),
+  dark:mixH(h,'#0F172A',.56)
+});
+
+const cwP=h=>{
+  const c=h2r(h);
+  return{
+    light:r2h(c.r*.75,c.g*.95,Math.min(255,c.b*1.2+18)),
+    dark:r2h(Math.min(255,c.r*1.15+18),c.g*.92,c.b*.78)
+  };
+};
+
+const lum=h=>{
+  const{r,g,b}=h2r(h);
+  return(r*299+g*587+b*114)/1000;
+};
+
+function bGrad(x,y,w,h){
+  const md=document.querySelector('input[name="gradMode"]:checked')?.value||'solid';
+  const ang=gV('gAng')*Math.PI/180;
+  const mix=gV('gMix')/100;
+
+  let c1=mCol,c2=mCol;
+
+  if(md==='solid')return{t:'s',c:mCol};
+
+  if(md==='coolwarm'){
+    const p=cwP(mCol);
+    c1=p.light;
+    c2=p.dark;
+  }else if(md==='depth'){
+    const p=ldP(mCol);
+    c1=p.light;
+    c2=p.dark;
+  }else if(md==='custom'){
+    c1=gCol1||mCol;
+    c2=gCol2||exC[1]?.hex||mixH(mCol,'#0F172A',.35);
+  }
+
+  const cx=x+w/2,cy=y+h/2,len=Math.max(w,h);
+  const dx=Math.cos(ang)*len,dy=Math.sin(ang)*len;
+
+  const gr=ctx.createLinearGradient(cx-dx/2,cy-dy/2,cx+dx/2,cy+dy/2);
+  gr.addColorStop(0,c1);
+  gr.addColorStop(Math.max(.05,Math.min(.95,mix)),mixH(c1,c2,.35));
+  gr.addColorStop(1,c2);
+
+  return{t:'g',gr};
+}
+
+function bPal(tg,act,cb){
+  tg.innerHTML='';
+
+  if(!exC.length){
+    tg.innerHTML='<span class="muted">等待分析...</span>';
+    return;
+  }
+
+  exC.forEach(c=>{
+    const s=document.createElement('div');
+    s.className='sw'+(c.hex===act?' act':'');
+    s.style.background=c.hex;
+    s.onclick=()=>{
+      Array.from(tg.children).forEach(e=>e.classList.remove('act'));
+      s.classList.add('act');
+      cb(c.hex);
+    };
+    tg.appendChild(s);
+  });
+}
+
+function bMPal(){
+  ui.mp.innerHTML='';
+
+  if(!exC.length)return;
+
+  exC.forEach((c,i)=>{
+    const s=document.createElement('div');
+    s.className='sw'+(i===0?' act':'');
+    s.style.background=c.hex;
+    s.onclick=()=>{
+      Array.from(ui.mp.children).forEach(e=>e.classList.remove('act'));
+      s.classList.add('act');
+      mCol=c.hex;
+      if(!gCol1)gCol1=c.hex;
+      sTxt();
+      draw();
+    };
+    ui.mp.appendChild(s);
+  });
+}
+
+function sTxt(){
+  tCol=lum(mCol)>144?'#1E293B':'#FFFFFF';
+  ui.tColInp.value=tCol;
+  if(ui.tGrad1) ui.tGrad1.value=tCol;
+  if(ui.tGrad2) ui.tGrad2.value=exC[1]?.hex || mCol;
+  ui.aiTip.innerText=`✨ AI 智能推荐: ${tCol==='#FFFFFF'?'浅色':'深色'}文字`;
+  ui.aiTip.style.color='#34d399';
+}
+
+function anCol(img){
+  const tc=document.createElement('canvas');
+  const tx=tc.getContext('2d');
+  tc.width=72;
+  tc.height=72;
+  tx.drawImage(img,0,0,72,72);
+
+  const d=tx.getImageData(0,0,72,72).data;
+  const px=[];
+
+  for(let i=0;i<d.length;i+=4){
+    if(d[i+3]<10)continue;
+    const s=d[i]+d[i+1]+d[i+2];
+    if(s>740||s<36)continue;
+    px.push([d[i],d[i+1],d[i+2]]);
+  }
+
+  exC=new KMeans(5).fit(px);
+
+  if(!exC.length){
+    exC=[
+      {hex:'#8B5CF6'},
+      {hex:'#4F46E5'},
+      {hex:'#06B6D4'},
+      {hex:'#F97316'},
+      {hex:'#CBD5E1'}
+    ];
+  }
+
+  mCol=exC[0].hex;
+  gCol1=exC[1]?.hex||exC[0].hex;
+  gCol2=exC[4]?.hex||exC[2]?.hex||mixH(exC[0].hex,'#0F172A',.35);
+
+  bMPal();
+  bPal(ui.gPal1,gCol1,h=>{
+    gCol1=h;
+    draw();
+  });
+  bPal(ui.gPal2,gCol2,h=>{
+    gCol2=h;
+    draw();
+  });
+  sTxt();
+  draw();
+}
+
+ui.up.onclick=()=>ui.fi.click();
+
+ui.up.ondragover=e=>{
+  e.preventDefault();
+  ui.up.style.borderColor='#fff';
+  ui.up.style.background='rgba(255,255,255,.1)';
+};
+
+ui.up.ondragleave=()=>{
+  ui.up.style.borderColor='var(--glass-border-light)';
+  ui.up.style.background='var(--glass-card)';
+};
+
+ui.up.ondrop=e=>{
+  e.preventDefault();
+  ui.up.style.borderColor='var(--glass-border-light)';
+  ui.up.style.background='var(--glass-card)';
+  if(e.dataTransfer.files[0])hdF(e.dataTransfer.files[0]);
+};
+
+ui.fi.onchange=e=>{
+  if(e.target.files[0])hdF(e.target.files[0]);
+};
+
+function hdF(f){
+  if(!f.type.startsWith('image/')){
+    return alert('请上传图片');
+  }
+
+  ui.up.innerHTML='<div style="font-size:32px;margin-bottom:8px;">✨</div><p style="font-weight:700;font-size:14px;color:#fff;">解析成功，点击可重新上传</p>';
+
+  const rd=new FileReader();
+
+  rd.onload=ev=>{
+    const img=new Image();
+    img.onload=()=>{
+      upImg=img;
+      document.querySelectorAll('.st-n').forEach(e=>e.classList.remove('lock'));
+      ui.emp.style.display='none';
+      ui.cvs.style.opacity='1';
+      anCol(img);
+    };
+    img.src=ev.target.result;
+  };
+
+  rd.readAsDataURL(f);
+}
+
+ui.tp1.onclick=()=>{
+  const d=new Date();
+  ui.t1.value=`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+  ui.t2.value='Somewhere on Earth';
+  draw();
+};
+
+ui.tp2.onclick=()=>{
+  ui.t1.value='COLOR';
+  ui.t2.value=mCol.toUpperCase();
+  draw();
+};
+
+ui.tp3.onclick=()=>{
+  ui.t1.value='浮生暂歇';
+  ui.t2.value='偏爱这半抹春色。';
+  draw();
+};
+
+ui.tColInp.addEventListener('input',e=>{
+  tCol=e.target.value;
+  if(ui.tColorMode) ui.tColorMode.value='solid';
+  ui.aiTip.innerText='🎨 已切换为自定义单色';
+  ui.aiTip.style.color='#a5b4fc';
+  draw();
+});
+
+document.querySelectorAll('.rt').forEach(e=>e.addEventListener('input',draw));
+// 随机偏移需要“每次拖动都重新洗牌”，所以给波点随机算法更新种子。
+// 这样不是只改变偏移强度，而是会真正打乱图片上的波点位置。
+const htJitControl=$('htJit');
+if(htJitControl){
+  htJitControl.addEventListener('input',()=>{
+    halftoneSeed = Math.random()*100000 + parseFloat(htJitControl.value||0)*97;
+    draw();
+  });
+  htJitControl.addEventListener('change',()=>{
+    halftoneSeed = Math.random()*100000 + parseFloat(htJitControl.value||0)*131;
+    draw();
+  });
+}
+document.querySelectorAll('input[name="gradMode"]').forEach(e=>e.addEventListener('change',draw));
+
+ui.htOn.addEventListener('change',e=>{
+  ui.htPanel.style.display=e.target.checked?'block':'none';
+  draw();
+});
+
+const dShp={
+  circle:(c,x,y,r)=>{
+    c.moveTo(x+r,y);
+    c.arc(x,y,r,0,Math.PI*2);
+  },
+  heart:(c,x,y,r)=>{
+    c.moveTo(x,y+r*.85);
+    c.bezierCurveTo(x-r*1.45,y-r*.15,x-r*.9,y-r*1.22,x,y-r*.38);
+    c.bezierCurveTo(x+r*.9,y-r*1.22,x+r*1.45,y-r*.15,x,y+r*.85);
+  },
+  star:(c,x,y,r)=>{
+    c.moveTo(x,y-r);
+    for(let i=1;i<10;i++){
+      const a=-Math.PI/2+i*Math.PI/5;
+      const rr=i%2===0?r:r*.42;
+      c.lineTo(x+Math.cos(a)*rr,y+Math.sin(a)*rr);
+    }
+    c.closePath();
+  },
+  butterfly:(c,x,y,r)=>{
+    c.moveTo(x,y);
+    c.bezierCurveTo(x-r*1.6,y-r*1.35,x-r*1.55,y+r*.35,x-r*.2,y+r*.25);
+    c.bezierCurveTo(x-r*1.2,y+r*.7,x-r*.7,y+r*1.3,x,y+r*.55);
+    c.bezierCurveTo(x+r*.7,y+r*1.3,x+r*1.2,y+r*.7,x+r*.2,y+r*.25);
+    c.bezierCurveTo(x+r*1.55,y+r*.35,x+r*1.6,y-r*1.35,x,y);
+  },
+  drop:(c,x,y,r)=>{
+    c.moveTo(x,y-r*1.15);
+    c.bezierCurveTo(x+r*.9,y-r*.55,x+r*.95,y+r*.65,x,y+r*.95);
+    c.bezierCurveTo(x-r*.95,y+r*.65,x-r*.9,y-r*.55,x,y-r*1.15);
+  }
+};
+
+const sr=(x,y)=>{
+  let n=Math.sin(x*12.9898+y*78.233)*43758.5453;
+  return n-Math.floor(n);
+};
+
+function mapRange(v,min,max){
+  return min + (Math.max(0,Math.min(100,v)) / 100) * (max - min);
+}
+
+function getTextFillStyle(x,y,w,h){
+  const mode=ui.tColorMode?.value || 'solid';
+  if(mode === 'solid') return tCol;
+
+  const ang=(parseFloat(ui.tGradAng?.value || 90) * Math.PI) / 180;
+  const len=Math.max(w,h);
+  const cx=x + w / 2;
+  const cy=y + h / 2;
+  const dx=Math.cos(ang) * len;
+  const dy=Math.sin(ang) * len;
+  const gr=ctx.createLinearGradient(cx-dx/2,cy-dy/2,cx+dx/2,cy+dy/2);
+
+  if(mode === 'gradient-main'){
+    const p=ldP(mCol);
+    gr.addColorStop(0,p.light);
+    gr.addColorStop(.52,mCol);
+    gr.addColorStop(1,p.dark);
+  }else{
+    gr.addColorStop(0,ui.tGrad1?.value || tCol);
+    gr.addColorStop(1,ui.tGrad2?.value || mCol);
+  }
+  return gr;
+}
+
+
+function drawCanvasText(txt,x,y,fontWeight,fontSize,fontFamily){
+  const weight=parseInt(fontWeight,10)||500;
+  ctx.font=`${fontWeight} ${fontSize}px ${fontFamily}`;
+  if(weight>=900){
+    ctx.fillText(txt,x,y);
+    ctx.save();
+    ctx.lineWidth=Math.max(1.2,fontSize*.035);
+    ctx.strokeStyle=ctx.fillStyle;
+    ctx.strokeText(txt,x,y);
+    ctx.restore();
+  }else if(weight>=700){
+    ctx.fillText(txt,x,y);
+    ctx.save();
+    ctx.lineWidth=Math.max(.6,fontSize*.018);
+    ctx.strokeStyle=ctx.fillStyle;
+    ctx.strokeText(txt,x,y);
+    ctx.restore();
+  }else if(weight<=100){
+    ctx.save();
+    ctx.globalAlpha=.78;
+    ctx.fillText(txt,x,y);
+    ctx.restore();
+  }else{
+    ctx.fillText(txt,x,y);
+  }
+}
+
+function draw(){
+  if(!upImg)return;
+
+  const w=ui.lm.value==='3:4'?900:1200;
+  const h=ui.lm.value==='3:4'?1200:900;
+
+  ui.cvs.width=w;
+  ui.cvs.height=h;
+  ctx.clearRect(0,0,w,h);
+
+  const sp=gV('vSp')/100;
+  const cr={x:0,y:0,w,h};
+  const ir={x:0,y:0,w,h};
+
+  if(ui.lm.value==='3:4'){
+    cr.h=h*sp;
+    ir.y=h*sp;
+    ir.h=h*(1-sp);
+  }else{
+    cr.w=w*sp;
+    ir.x=w*sp;
+    ir.w=w*(1-sp);
+  }
+
+  const zm=gV('vZm');
+  const px=gV('vPx')/100;
+  const py=gV('vPy')/100;
+  const iR=upImg.width/upImg.height;
+  const cR=w/h;
+
+  let fw,fh;
+
+  if(iR>cR){
+    fh=h*zm;
+    fw=upImg.width*(fh/upImg.height);
+  }else{
+    fw=w*zm;
+    fh=upImg.height*(fw/upImg.width);
+  }
+
+  const fx=(w-fw)/2+px*(w*.5);
+  const fy=(h-fh)/2+py*(h*.5);
+
+  const st=bGrad(cr.x,cr.y,cr.w,cr.h);
+  ctx.fillStyle=st.t==='s'?st.c:st.gr;
+  ctx.fillRect(cr.x,cr.y,cr.w,cr.h);
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(ir.x,ir.y,ir.w,ir.h);
+  ctx.clip();
+  ctx.drawImage(upImg,fx,fy,fw,fh);
+  ctx.restore();
+
+  if(ui.htOn.checked){
+    // 重新构建波点区域逻辑：先按「显示区域」决定在哪个矩形里画，
+    // 再对每个矩形分别 clip，保证“全图/仅色块/仅图片/双区”都严格对应。
+    const oc=document.createElement('canvas');
+    oc.width=w;
+    oc.height=h;
+
+    const ox=oc.getContext('2d',{willReadFrequently:true});
+    ox.clearRect(0,0,w,h);
+    ox.drawImage(upImg,fx,fy,fw,fh);
+
+    const dt=ox.getImageData(0,0,w,h).data;
+
+    // 界面保持 0–100；内部映射为真实绘制尺寸。
+    // 0 = 最小可见效果，100 = 最大效果。
+    const bSz=mapRange(gV('htSz'),2,82);
+    const gp=mapRange(gV('htGap'),10,150);
+    const dn=Math.max(0,Math.min(100,gV('htDen')));
+    const vr=gV('htVar')/100;
+    const jt=mapRange(gV('htJit'),0,90);
+    const al=gV('htAlp')/100;
+    const ar=ui.htArea.value;
+    const cM=ui.htColor.value;
+    const ly=ui.htLayout.value;
+    const sFn=dShp[ui.htShape.value]||dShp.circle;
+
+    const contrastDot=(hex)=>{
+      // 色块区如果继续用“主色”会和背景融在一起，看起来像没显示。
+      // 这里自动转为同色系高对比色，确保色块区波点可见。
+      return lum(hex)>145 ? mixH(hex,'#111827',.48) : mixH(hex,'#FFFFFF',.48);
+    };
+
+    const sampleAt=(x,y)=>{
+      const ix=Math.max(0,Math.min(w-1,Math.floor(x)));
+      const iy=Math.max(0,Math.min(h-1,Math.floor(y)));
+      const id=(iy*w+ix)*4;
+      const r=dt[id]||0,g=dt[id+1]||0,b=dt[id+2]||0,a=dt[id+3]||0;
+      return {r,g,b,a,has:a>=8,brightness:(r*.299+g*.587+b*.114)/255};
+    };
+
+    const dotColor=(areaType,sm)=>{
+      if(cM==='white')return '#FFFFFF';
+      if(cM==='black')return '#000000';
+      if(cM==='sample'&&sm.has)return `rgb(${sm.r},${sm.g},${sm.b})`;
+
+      if(areaType==='color'){
+        return contrastDot(mCol);
+      }
+
+      if(ar==='dual'&&areaType==='image'&&sm.has){
+        return `rgb(${sm.r},${sm.g},${sm.b})`;
+      }
+
+      return mCol;
+    };
+
+    const drawAreaDots=(rect,areaType)=>{
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(rect.x,rect.y,rect.w,rect.h);
+      ctx.clip();
+      ctx.globalAlpha=al;
+
+      let rw=0;
+      const startY=rect.y+gp/2;
+      const endY=rect.y+rect.h;
+      const startX=rect.x+gp/2;
+      const endX=rect.x+rect.w;
+
+      for(let y=startY;y<endY;y+=gp){
+        const xO=(ly==='hex'&&rw%2?gp/2:0);
+
+        for(let x=startX+xO;x<endX;x+=gp){
+          if(sr(x+halftoneSeed,y-halftoneSeed)*100>dn)continue;
+
+          const sm=sampleAt(x,y);
+
+          // 仅图片区必须真的落在照片像素上，避免图片外透明区域也出现波点。
+          if(areaType==='image'&&!sm.has)continue;
+
+          const br=areaType==='image' ? sm.brightness : (0.35+sr(x+17+halftoneSeed,y+31-halftoneSeed)*0.42);
+          const sz=Math.max(1.2,bSz*(1-br*vr));
+          const jitter=ly==='random'?Math.max(jt,gp*.55):jt;
+          const jx=x+(sr(x+halftoneSeed,y+1-halftoneSeed)-.5)*jitter*2;
+          const jy=y+(sr(x+1+halftoneSeed,y-halftoneSeed)-.5)*jitter*2;
+
+          ctx.fillStyle=dotColor(areaType,sm);
+          ctx.beginPath();
+          sFn(ctx,jx,jy,sz);
+          ctx.fill();
+        }
+        rw++;
+      }
+
+      ctx.restore();
+    };
+
+    if(bSz>0&&dn>0){
+      if(ar==='all'){
+        drawAreaDots(cr,'color');
+        drawAreaDots(ir,'image');
+      }else if(ar==='colorOnly'){
+        drawAreaDots(cr,'color');
+      }else if(ar==='imgOnly'){
+        drawAreaDots(ir,'image');
+      }else{
+        // 双区智能分离：色块区用高对比同色系，图片区用采样或主色。
+        drawAreaDots(cr,'color');
+        drawAreaDots(ir,'image');
+      }
+    }
+  }
+
+  const tT=ui.t1.value.trim();
+  const bT=ui.t2.value.trim();
+
+  if(tT||bT){
+    ctx.fillStyle=getTextFillStyle(cr.x,cr.y,cr.w,cr.h);
+    ctx.textAlign='center';
+    ctx.textBaseline='middle';
+
+    const tS=gV('vSz1');
+    const bS=gV('vSz2');
+    const gp=gV('vGap');
+    const cX=cr.x+cr.w/2;
+    const cY=cr.y+cr.h/2;
+    const fF=ui.fF.value;
+    const fW=ui.fW.value;
+
+    const bL=bT?bT.split('\n'):[];
+    const bLH=bS*1.34;
+    const bTH=bL.length?(bL.length-1)*bLH+bS:0;
+    const tH=(tT?tS:0)+(bT?bTH:0)+(tT&&bT?gp:0);
+
+    let y=cY-tH/2;
+
+    if(tT){
+      ctx.font=`${fW} ${tS}px ${fF}`;
+      drawCanvasText(tT,cX,y+tS/2,fW,tS,fF);
+      y+=tS+gp;
+    }
+
+    if(bT){
+      ctx.font=`${fW} ${bS}px ${fF}`;
+      bL.forEach((l,i)=>drawCanvasText(l,cX,y+bS/2+i*bLH,fW,bS,fF));
+    }
+  }
+}
+
+ui.dl.onclick=()=>{
+  if(!upImg)return alert('请先上传照片');
+
+  const l=document.createElement('a');
+  l.download=`ColorWalk_${Date.now()}.png`;
+  l.href=ui.cvs.toDataURL('image/png',1);
+  l.click();
+};
+</script>
+</body>
+</html>
