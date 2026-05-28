@@ -223,17 +223,17 @@ body{
 @keyframes slideWalkSwan{
   0%,18%{
     opacity:1;
-    transform:translate(12%,-50%) scale(1);
+    transform:translate(var(--walk-start-px,60px),-50%) scale(1);
     filter:blur(0);
   }
   54%{
     opacity:1;
-    transform:translate(clamp(40px,11vw,150px),-51%) scale(1);
+    transform:translate(var(--walk-mid-px,90px),-51%) scale(1);
     filter:blur(0);
   }
   100%{
     opacity:1;
-    transform:translate(clamp(70px,17vw,230px),-52%) scale(1);
+    transform:translate(var(--walk-end-px,120px),-52%) scale(1);
     filter:blur(0);
   }
 }
@@ -246,8 +246,8 @@ body{
     100%{opacity:1;transform:translate(calc(-100% - 18vw),-52%) scale(1);filter:blur(0);}
   }
   @keyframes slideWalkSwan{
-    0%,18%{opacity:1;transform:translate(12%,-50%) scale(1);filter:blur(0);}
-    100%{opacity:1;transform:translate(12vw,-52%) scale(1);filter:blur(0);}
+    0%,18%{opacity:1;transform:translate(var(--walk-start-px,34px),-50%) scale(1);filter:blur(0);}
+    100%{opacity:1;transform:translate(var(--walk-end-px,58px),-52%) scale(1);filter:blur(0);}
   }
 }
 
@@ -1205,6 +1205,27 @@ input[type="range"]::-webkit-slider-thumb{
 
 <script>
 /* ================= 页面衔接交互 ================= */
+
+function updateWalkTitleBounds(){
+  const walk=document.querySelector('.title-walk');
+  if(!walk)return;
+  const vw=window.innerWidth;
+  const left=vw*0.5;
+  const width=walk.offsetWidth || 520;
+  const safeRight=24;
+  const maxTranslate=Math.max(0, vw - safeRight - left - width);
+  const originalStart=width*0.12;
+  const start=Math.min(originalStart, maxTranslate);
+  const desiredMove=Math.min(150, vw*0.12);
+  const end=Math.min(start + desiredMove, maxTranslate);
+  const mid=start + (end-start)*0.55;
+  walk.style.setProperty('--walk-start-px', `${start}px`);
+  walk.style.setProperty('--walk-mid-px', `${mid}px`);
+  walk.style.setProperty('--walk-end-px', `${end}px`);
+}
+window.addEventListener('load', updateWalkTitleBounds);
+window.addEventListener('resize', updateWalkTitleBounds);
+
 
 const intro = document.getElementById('intro');
 const appPage = document.getElementById('appPage');
